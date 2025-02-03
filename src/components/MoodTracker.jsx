@@ -34,12 +34,18 @@ const MoodTracker = () => {
     setSelectedMood(null);
   };
 
-  const clearMoods = () => {
-    setShowModal(true);
+  // const clearMoods = () => {
+  //   setShowModal(true);
     
+  //   setMoodEntries([]);
+  //   toast.success("Cleared all moods");
+  // }
+
+  const confirmClearMoods = () => {
     setMoodEntries([]);
     toast.success("Cleared all moods");
-  }
+    setShowModal(false);
+  };
 
   const deleteSelectedMood = (index) => {
     setDeletedMoods([...deletedMoods,moodEntries[index]]);
@@ -59,7 +65,12 @@ const MoodTracker = () => {
   return (
     <>
       <ToastContainer />
-      {showModal && <ModalDialogBox />}
+      {showModal && (
+        <ModalDialogBox
+          onConfirm={confirmClearMoods}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
       <div className="max-w-md mx-auto p-4 bg-white-300 text-black-50 shadow-md rounded-lg">
         <h1 className="text-xl font-bold mb-4 ">Mood Tracker</h1>
         <div className="flex gap-2 mb-4">
@@ -90,7 +101,7 @@ const MoodTracker = () => {
         {moodEntries.length > 0 && (
           <div className="flex justify-between mb-4">
             <button
-              onClick={clearMoods}
+              onClick={() => setShowModal(true)}
               className="bg-red-500 text-white p-2 rounded cursor-pointer"
             >
               Clear All
